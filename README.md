@@ -25,7 +25,8 @@ El Backend utiliza RabbitMQ como intermediario para manejar las tareas de análi
 
 Se comienza cuando el usuario ingresa a la plataforma y realiza el test inicial que evalúa las tres competencias: escritura, lectura y habla. El frontend recoge las respuestas y las envía al backend a través de Traefik. Desde allí, RabbitMQ distribuye las solicitudes hacia los servicios de inteligencia artificial: LangChain procesa los textos para evaluar gramática y coherencia, mientras que el servicio de voz analiza pronunciación y fluidez. Con base en los resultados, el sistema clasifica el nivel del usuario y genera actividades personalizadas que se almacenan en la base de datos. A medida que el usuario completa las tareas, el sistema vuelve a procesar las entregas y proporciona la retroalimentación.
 
-(imagen del diagrama de eraser.io)
+<img width="1591" height="494" alt="diagram-export-8-10-2025-18_08_35" src="https://github.com/user-attachments/assets/51d96c33-1baf-49fd-989a-54cfaa10518b" />
+Diagrama hecho en Eraser.io
 
 --- 
 
