@@ -1,5 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
-from .services.rabbitmq_utils import send_message
+from services.rabbitmq_utils import send_message
 import asyncio
 
 app = FastAPI(title="LinguaMentor Gateway")
