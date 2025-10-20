@@ -1,0 +1,32 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: lingua_rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    ports:
+      - "5672:5672"      # Puerto del broker
+      - "15672:15672"    # Puerto de la interfaz de gestión
+    networks:
+      - lingua_net
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.backend
+    container_name: lingua_backend
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_USER: ${RABBITMQ_USER}
+      RABBITMQ_PASS: ${RABBITMQ_PASS}
+      RABBITMQ_HOST: rabbitmq
+    ports:
+      - "8000:8000"
+    networks:
+      - lingua_net
+
+networks:
+  lingua_net:
+    driver: bridge
