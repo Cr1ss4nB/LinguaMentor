@@ -22,7 +22,8 @@ El frontend estará planeado para ser desarrollado en React, permitiendo una int
 El Backend utiliza RabbitMQ como intermediario para manejar las tareas de análisis de texto y voz. Dichas tareas son procesadas por los servicios de inteligencia artificial: LangChain y otra IA que se enfoque en el análisis de voz (reconocimiento de voz). Finalmente, los resultados y puntuaciones se almacenan en la base de datos, y el sistema devuelve una retroalimentación personalizada al usuario, cerrando el ciclo de interacción.
 Se comienza cuando el usuario ingresa a la plataforma y realiza el test inicial que evalúa las tres competencias: escritura, lectura y habla. El frontend recoge las respuestas y las envía al backend a través de Traefik. Desde allí, RabbitMQ distribuye las solicitudes hacia los servicios de inteligencia artificial: LangChain procesa los textos para evaluar gramática y coherencia, mientras que el servicio de voz analiza pronunciación y fluidez. Con base en los resultados, el sistema clasifica el nivel del usuario y genera actividades personalizadas que se almacenan en la base de datos. A medida que el usuario completa las tareas, el sistema vuelve a procesar las entregas y proporciona la retroalimentación.
 
-(imagen del diagrama de eraser.io)
+<img width="1591" height="494" alt="diagram-export-8-10-2025-18_08_35" src="https://github.com/user-attachments/assets/20874c2a-013c-466e-9060-4ee2a5ba9cfb" />
+
 --- 
 
 ## 🧩 Arquitectura de Microservicios - LinguaMentor
