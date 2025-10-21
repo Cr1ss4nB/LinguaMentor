@@ -42,7 +42,7 @@ Cada microservicio cumple una función específica dentro del flujo de aprendiza
 
 ## Estructura del proyecto LinguaMentor (Planteado)
 
---- 
+```
 LinguaMentor/
 ├── backend/
 │   ├── app/
@@ -78,8 +78,7 @@ LinguaMentor/
 │
 └── README.md
 └── .gitignore
-
---- 
+```
 
 ## Implementación
 
