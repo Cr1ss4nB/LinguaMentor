@@ -3,15 +3,19 @@
 ### Integrantes
 - 202010495: Cristian Andrés Basto Largo
 - 201821701: Andrea Katherine Bello Sotelo
+
 --- 
 
 # LinguaMentor – Evaluador y Tutor Inteligente de Idiomas
 
 ## Idea Proyecto
+
 Las herramientas actuales para el aprendizaje de idiomas suelen ofrecer ejercicios genéricos y poca personalización. LinguaMentor busca ofrecer una experiencia más adaptativa y precisa, actuando como un tutor virtual que entiende el nivel real del usuario y lo guía en su progreso.
 A partir de un test inicial, la plataforma clasifica al estudiante según sus habilidades en escritura, lectura y habla, generando un plan de ejercicios ajustado a sus debilidades y fortalezas. El sistema entrega retroalimentación detallada con explicaciones y ejemplos, fomentando un aprendizaje autónomo y personalizado.
 La evaluación del habla mediante IA representa un avance importante, ya que permite analizar la pronunciación y fluidez sin intervención humana, otorgando al estudiante una experiencia interactiva y realista. Este enfoque contribuye a mejorar la educación en idiomas desde una perspectiva tecnológica, ofreciendo un entorno inteligente, escalable y de fácil acceso para estudiantes de diferentes niveles.
+
 --- 
+
 ## Arquitectura del Proyecto
 La arquitectura de LinguaMentor se basa en un enfoque modular desplegado con contenedores Docker.
 El frontend estará planeado para ser desarrollado en React, permitiendo una interacción directa con el usuario para el envío de textos o grabaciones de voz. Estas solicitudes se envían a través del proxy inverso Traefik, que gestiona las peticiones HTTP y las redirige al Backend, encargado de procesar los datos y coordinar las operaciones internas.
@@ -37,6 +41,7 @@ Cada microservicio cumple una función específica dentro del flujo de aprendiza
 
 ## Estructura del proyecto LinguaMentor (Planteado)
 
+--- 
 LinguaMentor/
 ├── backend/
 │   ├── app/
@@ -168,7 +173,7 @@ Con docker compose up --build se levantan ambos servicios conectados en una red 
 
 #### Requisitos
 
-## 📦 Dependencias del Proyecto
+## Dependencias del Proyecto
 
 Cada paquete tiene una función específica dentro del sistema:
 
@@ -193,11 +198,17 @@ docker compose --env-file .env up --build
 
 http://localhost:8000/health
 
+<img width="656" height="156" alt="image" src="https://github.com/user-attachments/assets/c94d3576-6842-4770-a569-e6c3a6ed3421" />
+
 3. Abrir el panel de RabbitMQ:
 http://localhost:15672
 
 Usuario: admin
 Contraseña: lingua123
+
+Una vez iniciado sesión con las credenciales correctas se accede al Home Page de RabbitMQ:
+
+<img width="1918" height="914" alt="image" src="https://github.com/user-attachments/assets/2b6c9b5c-a1a3-4171-9f83-4fd7280d02dc" />
 
 4. Ejecutar el servicio de voz dentro del contenedor:
 
@@ -215,14 +226,18 @@ curl -X POST "http://localhost:8000/analyze_voice" -F "file=@test.wav"
 
 ```
 
+Se verifica también en RabbitMQ:
+
+<img width="946" height="398" alt="image" src="https://github.com/user-attachments/assets/bc9be466-1f74-4c54-be67-53797df170d4" />
+
 #### Resultados
 
 Resultado final de la semana
 
-✅ Entorno funcional con Docker y RabbitMQ
-✅ Comunicación asíncrona entre microservicios simulada
-✅ Backend operativo en FastAPI
-✅ Infraestructura base lista para expansión con IA y MongoDB
+- ✅ Entorno funcional con Docker y RabbitMQ
+- ✅ Comunicación asíncrona entre microservicios simulada
+- ✅ Backend operativo en FastAPI
+- ✅ Infraestructura base lista para expansión con IA y MongoDB
 
 --- 
 
