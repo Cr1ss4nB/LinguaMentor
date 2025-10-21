@@ -66,7 +66,7 @@ LinguaMentor/
 ├── frontend/
 │   ├── assets/
 │   ├── index.html
-    └── Dockerfile.frontend
+└── Dockerfile.frontend
 │   └── app.js
 │
 ├── infrastructure/
