@@ -1,0 +1,26 @@
+# Archivos de entorno
+.env
+*.env
+
+# Archivos temporales y cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Archivos de logs
+*.log
+
+# Directorios de build
+build/
+dist/
+*.egg-info/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Entornos virtuales
+venv/
+.env/
+.env.bak/
