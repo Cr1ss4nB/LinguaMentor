@@ -235,6 +235,67 @@ Se verifica también en RabbitMQ:
 
 <img width="946" height="398" alt="image" src="https://github.com/user-attachments/assets/bc9be466-1f74-4c54-be67-53797df170d4" />
 
+### Base de datos
+Se implementó la base de datos MongoDB para el sistema de gestión de usuarios de LinguaMentor, creando esquemas optimizados con Beanie ODM para almacenar perfiles de usuarios, preferencias de idiomas y métricas de voz. Se integró completamente con Docker Compose y se desarrollaron endpoints RESTful para operaciones CRUD, utilizando Argon2 para el hashing seguro de contraseñas. La arquitectura permite el análisis y seguimiento del progreso en pronunciación y fluidez de los usuarios.
+
+### Esquema 
+<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/esquema.png" />
+
+### Integración
+
+Agregamos el service a nuestro docker-compose en infrastructure/docker-compose.yml
+```
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: lingua_mentor_mongodb
+    ports: ["27017:27017"]
+    networks: [lingua_mentor_network]
+
+```
+Se realiza la conexión entre contenedores usando el nombre del servicio en backend/app/database/mongodb.py
+```
+MONGODB_URL = os.getenv("MONGODB_URL", "mongodb://mongodb:27017")
+
+```
+
+Para el manejo de dependencias en backend/requirements.txt 
+```
+beanie==1.22.0      # ODM para MongoDB distribuido
+motor==3.1.2        # Driver async para MongoDB
+pymongo==4.3.3      # Cliente MongoDB
+passlib[argon2]==1.7.4  # Hashing distribuido seguro
+
+```
+
+### Pruebas
+Construyendo la estructura
+
+<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/estructura.png" />
+
+EJecutando en primer plano
+
+<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/Ejecutando en primerplano.png" />
+
+Logs al Backend
+
+<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/logsbackend.png" />
+
+Pruebas de estado
+
+<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/PruebasIniciales.png" />
+
+Pruebas usuarios
+<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/Pruebas.png" />
+
+
+
+
+
+
+
+
+
 #### Resultados
 
 Resultado final de la semana
