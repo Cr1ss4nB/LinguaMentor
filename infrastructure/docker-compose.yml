@@ -1,32 +1,69 @@
 services:
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: lingua_rabbitmq
+  mongodb:
+    image: mongo:6.0
+    container_name: lingua_mentor_mongodb
+    restart: unless-stopped
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+      MONGO_INITDB_DATABASE: linguamentor
     ports:
-      - "5672:5672"      # Puerto del broker
-      - "15672:15672"    # Puerto de la interfaz de gestión
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
     networks:
-      - lingua_net
+      - lingua_mentor_network
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: lingua_mentor_rabbitmq
+    restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - lingua_mentor_network
 
   backend:
     build:
       context: ../backend
-      dockerfile: Dockerfile.backend
-    container_name: lingua_backend
-    depends_on:
-      - rabbitmq
-    environment:
-      RABBITMQ_USER: ${RABBITMQ_USER}
-      RABBITMQ_PASS: ${RABBITMQ_PASS}
-      RABBITMQ_HOST: rabbitmq
+      dockerfile: Dockerfile.backend  # ← CAMBIAR AQUÍ
+    container_name: lingua_mentor_backend
+    restart: unless-stopped
     ports:
       - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=linguamentor
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+    depends_on:
+      - mongodb
+      - rabbitmq
     networks:
-      - lingua_net
+      - lingua_mentor_network
+    volumes:
+      - ../backend:/app
+
+  traefik:
+    image: traefik:v2.10
+    container_name: lingua_mentor_traefik
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      - lingua_mentor_network
+
+volumes:
+  mongodb_data:
 
 networks:
-  lingua_net:
+  lingua_mentor_network:
     driver: bridge
