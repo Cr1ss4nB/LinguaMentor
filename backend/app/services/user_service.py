@@ -4,7 +4,7 @@ from app.models.user_model import User, UserCreate, UserResponse
 from passlib.context import CryptContext
 import logging
 
-# Password hashing context - Using Argon2 which doesn't have the 72-byte limit
+
 pwd_context = CryptContext(schemes=["argon2"], deprecated="auto")
 
 logger = logging.getLogger(__name__)
@@ -31,7 +31,7 @@ class UserService:
         Create a new user in the database
         """
         try:
-            # Check if user already exists
+
             existing_user = await User.find_one(User.email == user_data.email)
             if existing_user:
                 raise ValueError("User with this email already exists")
@@ -40,14 +40,14 @@ class UserService:
             if existing_username:
                 raise ValueError("Username already taken")
 
-            # Validate password length
+
             if len(user_data.password) < 8:
                 raise ValueError("Password must be at least 8 characters long")
 
-            # Hash password using Argon2
+   
             hashed_password = UserService.hash_password(user_data.password)
 
-            # Create user document
+   
             user = User(
                 email=user_data.email,
                 username=user_data.username,
@@ -56,12 +56,12 @@ class UserService:
                 language_preferences=user_data.language_preferences
             )
 
-            # Save to database
+
             await user.insert()
 
             logger.info(f"User created successfully: {user.email}")
 
-            # Convert to response model
+
             return UserResponse(
                 _id=str(user.id),
                 email=user.email,

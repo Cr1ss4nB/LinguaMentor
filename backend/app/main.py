@@ -4,14 +4,14 @@ import logging
 from app.database.mongodb import mongodb
 from app.routes import user_routes
 
-# Configure logging
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Connect to MongoDB
+
     logger.info("Starting up...")
     try:
         await mongodb.connect_to_database()
@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI):
 
     yield
 
-    # Shutdown: Close MongoDB connection
+
     logger.info("Shutting down...")
     await mongodb.close_database_connection()
     logger.info("MongoDB connection closed")
@@ -35,7 +35,7 @@ app = FastAPI(
     lifespan=lifespan
 )
 
-# Include routers
+
 app.include_router(
     user_routes.router,
     prefix="/users",

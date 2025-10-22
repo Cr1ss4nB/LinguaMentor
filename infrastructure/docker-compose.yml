@@ -28,7 +28,7 @@ services:
   backend:
     build:
       context: ../backend
-      dockerfile: Dockerfile.backend  # ← CAMBIAR AQUÍ
+      dockerfile: Dockerfile.backend 
     container_name: lingua_mentor_backend
     restart: unless-stopped
     ports:
