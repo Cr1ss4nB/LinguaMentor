@@ -58,7 +58,7 @@ services:
     volumes:
       - ../backend/app/uploads:/app/uploads
     networks:
-      - lingua_net
+      - lingua_mentor_network
 
   evaluation_consumer:
     build:
@@ -72,7 +72,7 @@ services:
       - ../infrastructure/.env
     command: ["python", "app/services/evaluation_consumer.py"]
     networks:
-      - lingua_net
+      - lingua_mentor_network
 
 
   traefik:
