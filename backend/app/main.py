@@ -3,7 +3,9 @@ from contextlib import asynccontextmanager
 import logging
 from app.database.mongodb import mongodb
 from app.routes import user_routes
+from app.routes import voice
 
+app.include_router(voice.router, prefix="/voice", tags=["Voice Analysis"])
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -9,28 +9,30 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-    networks:
-      - lingua_mentor_network
     healthcheck:
       test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
       interval: 10s
-      timeout: 10s
+      timeout: 5s
       retries: 5
+    networks:
+      - lingua_mentor_network
 
   rabbitmq:
-    image: rabbitmq:3.12-management
+    image: rabbitmq:3.13-management
     container_name: lingua_mentor_rabbitmq
     restart: unless-stopped
     ports:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: lingua123
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
-      test: ["CMD", "rabbitmqctl", "status"]
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
       interval: 10s
-      timeout: 10s
+      timeout: 5s
       retries: 5
     networks:
       - lingua_mentor_network
@@ -38,55 +40,21 @@ services:
   backend:
     build:
       context: ../backend
-      dockerfile: Dockerfile.backend 
+      dockerfile: Dockerfile.backend
     container_name: lingua_mentor_backend
     restart: unless-stopped
-    depends_on:
-      mongodb:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    command: sh -c "sleep 5 && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     ports:
       - "8000:8000"
-    env_file:
-      - ../infrastructure/.env
-    networks:
-      - lingua_mentor_network
+    environment:
+      - MONGODB_URL=mongodb://mongodb:27017
+      - MONGODB_DB_NAME=linguamentor
+      - RABBITMQ_URL=amqp://admin:lingua123@rabbitmq:5672/
+    depends_on:
+      - rabbitmq
+      - mongodb
+    command: sh -c "sleep 5 && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     volumes:
       - ../backend:/app
-  
-  voice_ai:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile.backend
-    container_name: lingua_voice_ai
-    restart: on-failure
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-    env_file:
-      - ../infrastructure/.env
-    command: ["python", "app/services/voice_analysis_ai.py"]
-    volumes:
-      - ../backend/app/uploads:/app/uploads
-    networks:
-      - lingua_mentor_network
-
-  evaluation_consumer:
-    build:
-      context: ../backend
-      dockerfile: Dockerfile.backend
-    container_name: lingua_evaluation
-    restart: on-failure
-    depends_on:
-      mongodb:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
-    env_file:
-      - ../infrastructure/.env
-    command: ["python", "app/services/evaluation_consumer.py"]
     networks:
       - lingua_mentor_network
 
@@ -108,6 +76,7 @@ services:
 
 volumes:
   mongodb_data:
+  rabbitmq_data:
 
 networks:
   lingua_mentor_network:
