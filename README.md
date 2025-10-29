@@ -85,6 +85,52 @@ LinguaMentor/
 └── .gitignore
 ```
 
+## Tabla de los Endpoints
+
+| Endpoint | Descripción / Uso |
+|-----------|--------------------|
+| **`GET /`** | Página raíz. Retorna mensaje de bienvenida y estado del API. |
+| **`GET /health`** | Verifica el estado general del sistema y la conexión con MongoDB. |
+| **`GET /info`** | Muestra información técnica de la API (versión, servicios activos). |
+
+### 🎙️ Módulo de Voz
+| Endpoint | Descripción / Uso |
+|-----------|--------------------|
+| **`POST /voice/analyze-voice`** | Recibe un archivo `.wav`, lo transcribe con Whisper y analiza pronunciación/gramática con GPT-4o-mini. Devuelve JSON con transcripción y feedback. |
+| ** **`POST /voice/analyze-stream`** | Recibe audio en tiempo real (streaming de micrófono). Análisis progresivo. |
+| ** **`GET /voice/history/{user_id}`** | Devuelve el historial de análisis de voz del usuario. |
+
+### 👤 Módulo de Usuarios
+| Endpoint | Descripción / Uso |
+|-----------|--------------------|
+| **`POST /users/register`** | Registra un nuevo usuario (nombre, email, contraseña encriptada). |
+| **`POST /users/login`** | Autentica usuario y devuelve token JWT. |
+| **`GET /users/me`** | Devuelve información del usuario autenticado. |
+| ** **`PUT /users/update`** | Permite modificar perfil o preferencias lingüísticas. |
+| ** **`DELETE /users/{id}`** | Elimina cuenta del usuario (solo admin). |
+
+### 📚 Módulo de Cursos (IA / LangChain)
+| Endpoint | Descripción / Uso |
+|-----------|--------------------|
+| **`POST /courses/generate`** | Usa LangChain y GPT para crear un curso personalizado según nivel detectado por IA. |
+| **`GET /courses/{user_id}`** | Devuelve los cursos asignados al usuario. |
+| **`GET /courses/{course_id}/lessons`** | Lista las lecciones dentro de un curso. |
+| **`POST /courses/{course_id}/progress`** | Marca el progreso o guarda la evaluación del usuario. |
+
+### 💬 Módulo de Feedback y Evaluaciones
+| Endpoint | Descripción / Uso |
+|-----------|--------------------|
+| **`GET /feedback/history/{user_id}`** | Devuelve todos los análisis de voz o texto previos del usuario. |
+| **`POST /feedback/save`** | Guarda feedback específico de una sesión IA (voz o texto). |
+| ** **`DELETE /feedback/{id}`** | Elimina un registro de feedback. |
+
+### ⚙️ Administración y Servicios
+| Endpoint | Descripción / Uso |
+|-----------|--------------------|
+| **`GET /admin/services`** | Muestra el estado de RabbitMQ, MongoDB, Traefik y APIs externas. |
+| **`GET /admin/stats`** | Métricas de uso (número de análisis, usuarios activos, etc.). |
+
+
 ## Implementación
 
 ### Semana 1 
