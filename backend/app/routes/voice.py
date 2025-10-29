@@ -1,15 +1,14 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException
-import aiohttp
 import os
-import openai
 import tempfile
 from dotenv import load_dotenv
+from openai import OpenAI
 
 load_dotenv()
 
 router = APIRouter()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @router.post("/analyze-voice")
 async def analyze_voice(file: UploadFile = File(...)):
@@ -17,14 +16,13 @@ async def analyze_voice(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="El archivo debe ser .wav")
 
     try:
-        # Guardar archivo temporal
+        # Guardar el archivo temporal
         with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp:
-            contents = await file.read()
-            tmp.write(contents)
+            tmp.write(await file.read())
             tmp_path = tmp.name
 
         # Transcribir con Whisper
-        transcription = openai.audio.transcriptions.create(
+        transcription = client.audio.transcriptions.create(
             model="whisper-1",
             file=open(tmp_path, "rb")
         )
@@ -32,7 +30,7 @@ async def analyze_voice(file: UploadFile = File(...)):
         text = transcription.text
         print(f"🗣️ Transcripción: {text}")
 
-        # Analizar gramática y pronunciación con GPT-4o-mini
+        # Analizar con GPT-4o-mini
         prompt = f"""
         Eres un tutor de pronunciación y gramática. Evalúa el texto siguiente:
         '{text}'
@@ -42,7 +40,7 @@ async def analyze_voice(file: UploadFile = File(...)):
         - Nivel aproximado (A1–C2)
         """
 
-        feedback = openai.chat.completions.create(
+        feedback = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=200
