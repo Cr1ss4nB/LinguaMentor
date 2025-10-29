@@ -1,6 +1,6 @@
 services:
   mongodb:
-    image: mongo:6.0
+    image: mongo:4.4
     container_name: lingua_mentor_mongodb
     restart: unless-stopped
     environment:
@@ -11,6 +11,11 @@ services:
       - mongodb_data:/data/db
     networks:
       - lingua_mentor_network
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   rabbitmq:
     image: rabbitmq:3.12-management
@@ -20,8 +25,13 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
     networks:
       - lingua_mentor_network
 
@@ -31,15 +41,16 @@ services:
       dockerfile: Dockerfile.backend 
     container_name: lingua_mentor_backend
     restart: unless-stopped
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    command: sh -c "sleep 5 && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
     ports:
       - "8000:8000"
-    environment:
-      - MONGODB_URL=mongodb://mongodb:27017
-      - MONGODB_DB_NAME=linguamentor
-      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
-    depends_on:
-      - mongodb
-      - rabbitmq
+    env_file:
+      - ../infrastructure/.env
     networks:
       - lingua_mentor_network
     volumes:
@@ -50,8 +61,10 @@ services:
       context: ../backend
       dockerfile: Dockerfile.backend
     container_name: lingua_voice_ai
+    restart: on-failure
     depends_on:
-      - rabbitmq
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ../infrastructure/.env
     command: ["python", "app/services/voice_analysis_ai.py"]
@@ -65,15 +78,17 @@ services:
       context: ../backend
       dockerfile: Dockerfile.backend
     container_name: lingua_evaluation
+    restart: on-failure
     depends_on:
-      - rabbitmq
-      - mongo
+      mongodb:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
     env_file:
       - ../infrastructure/.env
     command: ["python", "app/services/evaluation_consumer.py"]
     networks:
       - lingua_mentor_network
-
 
   traefik:
     image: traefik:v2.10
