@@ -288,14 +288,6 @@ Pruebas de estado
 Pruebas usuarios
 <img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/Pruebas.png" />
 
-
-
-
-
-
-
-
-
 #### Resultados
 
 Resultado final de la semana
