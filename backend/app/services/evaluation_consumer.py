@@ -1,4 +1,3 @@
-# backend/app/services/evaluation_consumer.py
 import os
 import json
 import asyncio

@@ -44,6 +44,36 @@ services:
       - lingua_mentor_network
     volumes:
       - ../backend:/app
+  
+  voice_ai:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.backend
+    container_name: lingua_voice_ai
+    depends_on:
+      - rabbitmq
+    env_file:
+      - ../infrastructure/.env
+    command: ["python", "app/services/voice_analysis_ai.py"]
+    volumes:
+      - ../backend/app/uploads:/app/uploads
+    networks:
+      - lingua_net
+
+  evaluation_consumer:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.backend
+    container_name: lingua_evaluation
+    depends_on:
+      - rabbitmq
+      - mongo
+    env_file:
+      - ../infrastructure/.env
+    command: ["python", "app/services/evaluation_consumer.py"]
+    networks:
+      - lingua_net
+
 
   traefik:
     image: traefik:v2.10
