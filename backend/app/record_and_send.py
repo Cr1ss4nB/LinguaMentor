@@ -8,7 +8,7 @@ import os
 # --- CONFIG ---
 DURATION = 10  # segundos de grabación
 SAMPLE_RATE = 16000
-API_URL = "http://localhost:8000/analyze-voice"
+API_URL = "http://localhost:8000/voice/analyze-voice"
 
 def record_voice():
     print("Grabando... habla ahora (10 segs)")

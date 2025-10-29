@@ -2,18 +2,12 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import logging
 from app.database.mongodb import mongodb
-from app.routes import user_routes
-from app.routes import voice
-
-app.include_router(voice.router, prefix="/voice", tags=["Voice Analysis"])
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-
     logger.info("Starting up...")
     try:
         await mongodb.connect_to_database()
@@ -24,12 +18,12 @@ async def lifespan(app: FastAPI):
 
     yield
 
-
     logger.info("Shutting down...")
     await mongodb.close_database_connection()
     logger.info("MongoDB connection closed")
 
 
+# define app first
 app = FastAPI(
     title="LinguaMentor API",
     description="Intelligent Language Tutor - Backend API",
@@ -38,10 +32,20 @@ app = FastAPI(
 )
 
 
+# import routers AFTER app is defined (evita errores por orden de ejecución)
+from app.routes import user_routes
+from app.routes import voice
+
 app.include_router(
     user_routes.router,
     prefix="/users",
     tags=["users"]
+)
+
+app.include_router(
+    voice.router,
+    prefix="/voice",
+    tags=["Voice Analysis"]
 )
 
 
@@ -81,7 +85,7 @@ async def api_info():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(
-        "main:app",
+        "app.main:app",
         host="0.0.0.0",
         port=8000,
         reload=True,
