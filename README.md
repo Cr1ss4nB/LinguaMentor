@@ -346,7 +346,7 @@ Resultado final de la semana
 
 --- 
 
-### Final
+## Final
 
 
 El servicio de IA con whisper y gpt 4 mini está funcionando correctamente. Para esto fue necesario hacer una recarga en la API de GPT de la cuota mínima permitida la cual fue de 5 dólares. 
@@ -376,6 +376,8 @@ Se tiene implementadooo la base  de DAtos con  MongoDB. No hay persistencia toda
 
 Falta la implementación de LangChain para la comunicación entre ellos y la implementación correcta del reverse Proxy de Traefik ya que ya existe pero no se ejecuta correctamente. 
 
+## Construcción de Traefik
+
 El servicio de traefik está construido así:
 
 ![alt text](Doc/image-4.png)
@@ -383,3 +385,7 @@ El servicio de traefik está construido así:
 Se verifica que se hayan construido los servicios:
 
 ![alt text](Doc/image.png)
+
+Se verifica el uso de Traefik, que esté activo y escuchando en el puerto y funcional para nuestro programa. 
+
+![alt text](Doc/traefik.png)
