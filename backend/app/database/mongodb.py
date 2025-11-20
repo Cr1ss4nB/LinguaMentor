@@ -36,5 +36,4 @@ class MongoDB:
             print("Closed MongoDB connection")
 
 
-# Global database instance
 mongodb = MongoDB()

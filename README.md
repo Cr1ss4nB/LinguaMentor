@@ -345,4 +345,36 @@ Resultado final de la semana
 
 --- 
 
-### Semana 2
+### Final
+
+
+El servicio de IA con whisper y gpt 4 mini está funcionando correctamente. Para esto fue necesario hacer una recarga en la API de GPT de la cuota mínima permitida la cual fue de 5 dólares. 
+
+![alt text](image-2.png)
+
+Y después se crea una API key secreta que se añade al .env de nuestra aplicación para poder utilizarlo correctamente. 
+
+![alt text](image-1.png)
+
+
+Para usarlo se utiliza un .venv el cual se activa con el comando:
+
+- source .venv/bin/activate
+
+![alt text](image.png)
+
+Y se ejecuta el codigo python de record_and_send.py para detectar el audio del microfono y hablar en inglés o cualquier idioma y le genera el feedback automaticamente.
+
+Debido a estar en un entorno donde no se podía hablar como tal debido a muchas voces interponiendose entonces solo ejecuta el prompt predeterminado y devuelve una respuesta "aleatoria". 
+
+La capacidad de grabar el audio es de 10 segundos. 
+
+![alt text](image-3.png)
+
+Se tiene implementadooo la base  de DAtos con  MongoDB. No hay persistencia todavía del feedback generado por whisper AI y gpt 4 mini
+
+Falta la implementación de LangChain para la comunicación entre ellos y la implementación correcta del reverse Proxy de Traefik ya que ya existe pero no se ejecuta correctamente. 
+
+El servicio de traefik está construido así:
+
+![alt text](image-4.png)
