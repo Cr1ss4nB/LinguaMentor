@@ -395,3 +395,4 @@ Se verifica el uso de Traefik, que esté activo y escuchando en el puerto y func
 
 ## Construcción de la persistencia Mongodb
 
+Más arriba se puede observar que existe la base de datos y está funcional o activa. El problema es mantener la persistencia del feedback para cada usuario registrado. 
