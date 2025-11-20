@@ -285,7 +285,8 @@ Se verifica también en RabbitMQ:
 Se implementó la base de datos MongoDB para el sistema de gestión de usuarios de LinguaMentor, creando esquemas optimizados con Beanie ODM para almacenar perfiles de usuarios, preferencias de idiomas y métricas de voz. Se integró completamente con Docker Compose y se desarrollaron endpoints RESTful para operaciones CRUD, utilizando Argon2 para el hashing seguro de contraseñas. La arquitectura permite el análisis y seguimiento del progreso en pronunciación y fluidez de los usuarios.
 
 ### Esquema 
-<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/esquema.png" />
+
+![alt text](Doc/esquema.png)
 
 ### Integración
 
@@ -317,7 +318,7 @@ passlib[argon2]==1.7.4  # Hashing distribuido seguro
 ### Pruebas
 Construyendo la estructura
 
-<img width="946" height="398" alt="Esquema del proyecto" src="https://raw.githubusercontent.com/Cr1ss4nB/LinguaMentor/katherineBranch/Doc/estructura.png" />
+![alt text](Doc/esquema.png)
 
 EJecutando en primer plano
 
@@ -350,18 +351,18 @@ Resultado final de la semana
 
 El servicio de IA con whisper y gpt 4 mini está funcionando correctamente. Para esto fue necesario hacer una recarga en la API de GPT de la cuota mínima permitida la cual fue de 5 dólares. 
 
-![alt text](image-2.png)
+![alt text](Doc/image-2.png)
 
 Y después se crea una API key secreta que se añade al .env de nuestra aplicación para poder utilizarlo correctamente. 
 
-![alt text](image-1.png)
+![alt text](Doc/image-1.png)
 
 
 Para usarlo se utiliza un .venv el cual se activa con el comando:
 
 - source .venv/bin/activate
 
-![alt text](image.png)
+![alt text](<Doc/Captura desde 2025-11-19 18-46-50.png>)
 
 Y se ejecuta el codigo python de record_and_send.py para detectar el audio del microfono y hablar en inglés o cualquier idioma y le genera el feedback automaticamente.
 
@@ -369,7 +370,7 @@ Debido a estar en un entorno donde no se podía hablar como tal debido a muchas 
 
 La capacidad de grabar el audio es de 10 segundos. 
 
-![alt text](image-3.png)
+![alt text](Doc/image-3.png)
 
 Se tiene implementadooo la base  de DAtos con  MongoDB. No hay persistencia todavía del feedback generado por whisper AI y gpt 4 mini
 
@@ -377,8 +378,8 @@ Falta la implementación de LangChain para la comunicación entre ellos y la imp
 
 El servicio de traefik está construido así:
 
-![alt text](image-4.png)
+![alt text](Doc/image-4.png)
 
 Se verifica que se hayan construido los servicios:
 
-![alt text](image.png)
+![alt text](Doc/image.png)
