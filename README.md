@@ -378,3 +378,7 @@ Falta la implementación de LangChain para la comunicación entre ellos y la imp
 El servicio de traefik está construido así:
 
 ![alt text](image-4.png)
+
+Se verifica que se hayan construido los servicios:
+
+![alt text](image.png)
