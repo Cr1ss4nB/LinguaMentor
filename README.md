@@ -1,8 +1,11 @@
 # Proyecto Final - Sistemas Distribuidos
 
+Los avances están al final del README desde la etiqueta "Final".
+
+--- 
+
 ### Integrantes
 - 202010495: Cristian Andrés Basto Largo
-- 201821701: Andrea Katherine Bello Sotelo
 
 --- 
 
@@ -389,3 +392,6 @@ Se verifica que se hayan construido los servicios:
 Se verifica el uso de Traefik, que esté activo y escuchando en el puerto y funcional para nuestro programa. 
 
 ![alt text](Doc/traefik.png)
+
+## Construcción de la persistencia Mongodb
+
